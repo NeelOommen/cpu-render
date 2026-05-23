@@ -4,7 +4,10 @@
 // #include "stb_image.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-  #include "stb_image_write.h"
+#include "stb_image_write.h"
+
+#include "common/Colour.h"
+#include "image/ImageWrite.h"
 
 int main() {
     int width = 256;
@@ -14,18 +17,13 @@ int main() {
 
     for (int x = 0; x < width; x++) {
         for (int y = 0; y < height; y++) {
-            auto r = double(x) / (width-1);
-            auto g = double(y) / (height-1);
-            auto b = 0.0;
-
             int idx = (y * width + x) * channels;
-            data[idx + 0] = static_cast<unsigned char>(r * 255.999f);
-            data[idx + 1] = static_cast<unsigned char>(g * 255.999f);
-            data[idx + 2] = static_cast<unsigned char>(b * 255.999f);
+            Colour pixel(static_cast<float>(x) / (width-1), static_cast<float>(y) / (height-1), 0.0);
+            pixel.write(data, idx);
         }
     }
 
-    stbi_write_png("out.png", width,height, channels, data ,width*channels);
+    ImageWrite::savePng("out.png", width,height, channels, data);
     std::puts("cpu-render");
     return 0;
 }
