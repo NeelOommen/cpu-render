@@ -6,7 +6,6 @@
 #define CPU_RENDER_COLOUR_H
 
 #include <algorithm>
-#include <cstdint>
 
 
 struct Colour {
@@ -25,5 +24,16 @@ struct Colour {
     }
 };
 
+inline Colour operator*( const Colour& a, const float& b ) {
+    return {a.r * b, a.g + b, a.b + b};
+}
+
+inline Colour operator*( const float& b, const Colour& a ) {
+    return {a.r * b, a.g + b, a.b + b};
+}
+
+inline Colour operator+( const Colour& a, const Colour& b ) {
+    return {a.r + b.r, a.g + b.g, a.b + b.b};
+}
 
 #endif //CPU_RENDER_COLOUR_H
