@@ -10,8 +10,13 @@
 #include "image/ImageWrite.h"
 #include "common/Vec3.h"
 #include "ray/Ray.h"
+#include "primitives/Sphere.h"
 
-Colour ray_colour(const ray& r) {
+Colour ray_colour(const ray& r, Sphere s) {
+    if (s.does_hit(r)) {
+        return {1.0f, 0.0f, 0.0f};
+    }
+
     Vec3 unit_dir = unitVector(r.direction());
     float a = 0.5f*(unit_dir.y() + 1.0f);
 
@@ -44,6 +49,9 @@ int main() {
     int channels = 3;
     auto* data = new unsigned char[width * height * channels];
 
+    //scene
+    Sphere sphere(Vec3(0,0,-1), 0.5f);
+
     for (int x = 0; x < width; x++) {
         for (int y = 0; y < height; y++) {
             int idx = (y * width + x) * channels;
@@ -52,7 +60,7 @@ int main() {
             Vec3 ray_dir = pixel_center - camera_center;
             ray r(camera_center, ray_dir);
 
-            ray_colour(r).write(data, idx);
+            ray_colour(r, sphere).write(data, idx);
         }
     }
 
