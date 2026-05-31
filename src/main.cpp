@@ -13,8 +13,10 @@
 #include "primitives/Sphere.h"
 
 Colour ray_colour(const ray& r, Sphere s) {
-    if (s.does_hit(r)) {
-        return {1.0f, 0.0f, 0.0f};
+    float t = s.does_hit(r);
+    if (t > 0.0f) {
+        Vec3 normal = s.normal_at(r.at(t));
+        return 0.5f * Colour(normal.x() + 1, normal.y() + 1, normal.z() + 1);
     }
 
     Vec3 unit_dir = unitVector(r.direction());

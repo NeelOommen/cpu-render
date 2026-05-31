@@ -7,6 +7,7 @@
 
 #include "ray_hittable.h"
 #include "common/Vec3.h"
+#include "ray/Ray.h"
 
 class Vec3;
 
@@ -15,7 +16,9 @@ public:
 
     Sphere(const Vec3& c, float r) : center(c), radius(r) {}
 
-    bool does_hit(const ray& r) override;
+    float does_hit(const ray& r) override;
+
+    Vec3 normal_at(const Vec3& point);
 
 private:
     Vec3 center;

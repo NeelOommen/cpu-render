@@ -25,11 +25,11 @@ struct Colour {
 };
 
 inline Colour operator*( const Colour& a, const float& b ) {
-    return {a.r * b, a.g + b, a.b + b};
+    return {a.r * b, a.g * b, a.b * b};
 }
 
 inline Colour operator*( const float& b, const Colour& a ) {
-    return {a.r * b, a.g + b, a.b + b};
+    return {a.r * b, a.g * b, a.b * b};
 }
 
 inline Colour operator+( const Colour& a, const Colour& b ) {
